@@ -1,0 +1,149 @@
+.about-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Inter', sans-serif;
+}
+
+/* NAVBAR */
+.about-nav {
+  background: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-brand h2 {
+  font-size: 22px;
+  color: #1e40af;
+  margin: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: #475569;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #1e40af;
+}
+
+/* HERO SECTION */
+.about-hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+  color: white;
+}
+
+.about-hero h1 {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.about-hero p {
+  font-size: 20px;
+  opacity: 0.95;
+}
+
+/* CONTENT SECTION */
+.about-content {
+  max-width: 1000px;
+  margin: -40px auto 60px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.about-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.about-card:hover {
+  transform: translateY(-8px);
+}
+
+.about-card h2 {
+  font-size: 28px;
+  color: #1e40af;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.about-card p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #475569;
+}
+
+.about-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about-card li {
+  font-size: 16px;
+  color: #475569;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+  line-height: 1.6;
+}
+
+.about-card li:last-child {
+  border-bottom: none;
+}
+
+/* FOOTER */
+.about-footer {
+  background: #0f172a;
+  color: #94a3b8;
+  text-align: center;
+  padding: 30px;
+  margin-top: 60px;
+}
+
+.about-footer p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.about-footer strong {
+  color: #60a5fa;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .about-hero h1 {
+    font-size: 32px;
+  }
+
+  .about-nav {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .about-card {
+    padding: 30px 20px;
+  }
+}
