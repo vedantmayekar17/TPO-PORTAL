@@ -1,49 +1,49 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Index from "./Index.jsx";
+
+import Index from "./Main.jsx";
+import About from "./components/About";
+
+// Student Components
 import StudentLogin from "./components/StudentLogin";
 import StudentSignup from "./components/StudentSignup";
+import StudentDashboard from "./components/StudentDashboard";
 
-import StudentApplications from "./components/StudentDashboard/StudentApplications.jsx";
-import StudentDrives from "./components/StudentDashboard/StudentDrives.jsx";
-import StudentProfile from "./components/StudentDashboard/StudentProfile.jsx";
-import StudentSidebar from "./components/StudentDashboard/StudentSidebar.jsx";
+// Public Notifications Page
+import NotificationsPage from "./components/NotificationsPage";
 
+// Admin Components
 import AdminLogin from "./components/AdminLogin";
-import AdminApplications from "./components/AdminDashboard/AdminApplications.jsx";
-import AdminDrives from "./components/AdminDashboard/AdminDrives.jsx";
-import AdminSidebar from "./components/AdminDashboard/AdminSidebar.jsx";
-import AdminStats from "./components/AdminDashboard/AdminStats.jsx";
-import AdminStudents from "./components/AdminDashboard/AdminStudents.jsx";
+import AdminDashboard from "./components/AdminDashboard";
 
-import EditProfile from "./components/EditProfile";
-import About from "./components/About";
-import "./App.css";
+const NotFound = () => (
+  <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <h2>404 - Page Not Found</h2>
+    <a href="/" style={{ color: "#1d4ed8" }}>Go back to Home</a>
+  </div>
+);
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/about" element={<About />} />
+
+        {/* Admin */}
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+        {/* Public Notifications */}
+        <Route path="/notifications" element={<NotificationsPage />} />
+
+        {/* Student */}
         <Route path="/student-login" element={<StudentLogin />} />
         <Route path="/student-signup" element={<StudentSignup />} />
+        <Route path="/student-dashboard" element={<StudentDashboard />} />
 
-        {/* Student Dashboard sections */}
-        <Route path="/student-dashboard/applications" element={<StudentApplications />} />
-        <Route path="/student-dashboard/drives" element={<StudentDrives />} />
-        <Route path="/student-dashboard/profile" element={<StudentProfile />} />
-        <Route path="/student-dashboard/sidebar" element={<StudentSidebar />} />
-
-        <Route path="/admin-login" element={<AdminLogin />} />
-        {/* Admin Dashboard sections */}
-        <Route path="/admin-dashboard/applications" element={<AdminApplications />} />
-        <Route path="/admin-dashboard/drives" element={<AdminDrives />} />
-        <Route path="/admin-dashboard/sidebar" element={<AdminSidebar />} />
-        <Route path="/admin-dashboard/stats" element={<AdminStats />} />
-        <Route path="/admin-dashboard/students" element={<AdminStudents />} />
-
-        <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/about" element={<About />} />
+        {/* 404 */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
-const token = localStorage.getItem('adminToken');
-const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -11,31 +9,31 @@ function AdminLogin() {
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
-  try {
-    const res = await fetch("http://localhost:5000/api/adminLogin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await res.json();
-    // After successful login
-if (data.success) {
-  localStorage.setItem('adminData', JSON.stringify(data.admin));
-  localStorage.setItem('adminToken', data.token); // <-- Save the ACTUAL JWT token here
-  alert('✅ Login Successful');
-  navigate('/admin-dashboard');
-} else {
-  setError(data.message || 'Invalid username or password');
-}
+    e.preventDefault();
+    setError("");
+    try {
+      // Corrected API endpoint path!
+      const res = await fetch("http://localhost:5000/api/admins/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ identifier: username, password })
+});
 
-    
-  } catch (err) {
-    console.error("Login error:", err);
-    setError("⚠️ Server not responding! Make sure backend is running.");
-  }
-};
+      const data = await res.json();
+      // After successful login
+      if (data.success) {
+        localStorage.setItem('adminData', JSON.stringify(data.admin));
+        localStorage.setItem('adminToken', data.token); // <-- Save the ACTUAL JWT token here
+        alert('✅ Login Successful');
+        navigate('/admin-dashboard');
+      } else {
+        setError(data.message || 'Invalid username or password');
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("⚠️ Server not responding! Make sure backend is running.");
+    }
+  };
 
   return (
     <div className="login-body">

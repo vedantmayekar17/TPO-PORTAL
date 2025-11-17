@@ -8,33 +8,36 @@ function StudentLogin() {
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    try {
-      const res = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+  try {
+    const res = await fetch("http://localhost:5000/api/students/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (data.success) {
-        // ✅ Save student data to localStorage
-        localStorage.setItem('studentData', JSON.stringify(data.student));
-        localStorage.setItem('token', 'logged-in'); // Simple token
-        
-        alert("✅ Login Successful");
-        navigate("/student-dashboard");
-      } else {
-        setError(data.message || "❌ Invalid roll or password");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      setError("❌ Server error. Make sure backend is running.");
+    if (data.success) {
+
+      // ✅ Correct token storage
+      localStorage.setItem("student", JSON.stringify(data.student));
+      localStorage.setItem("studentToken", data.token);
+
+      alert("✅ Login Successful");
+      navigate("/student-dashboard");
+    } else {
+      setError(data.message || "❌ Invalid roll or password");
     }
-  };
+
+  } catch (error) {
+    console.error("Login error:", error);
+    setError("❌ Server error. Make sure backend is running.");
+  }
+};
+
 
   return (
     <div className="login-container">

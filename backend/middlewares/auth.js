@@ -1,31 +1,85 @@
-// middlewares/auth.js
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// User authentication (protects routes for logged-in users)
+/* ============================================================
+   ✅ AUTHENTICATE ANY LOGGED IN USER (Admin OR Student)
+   Stores -> req.user = { id, role, email }
+============================================================ */
 function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader) {
-    return res.status(401).json({ success: false, message: 'No token provided' });
+  const authHeader = req.headers["authorization"];
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({
+      success: false,
+      message: "Authorization header missing or invalid",
+    });
   }
-  const token = authHeader.split(' ')[1];
+
+  const token = authHeader.split(" ")[1];
+
   if (!token) {
-    return res.status(401).json({ success: false, message: 'No token provided' });
+    return res.status(401).json({
+      success: false,
+      message: "Token not provided",
+    });
   }
+
   try {
-    req.user = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    // ✅ Save decoded user info → (id, role, email)
+    req.user = decoded;
+
     next();
   } catch (err) {
-    return res.status(403).json({ success: false, message: 'Invalid or expired token' });
+    console.error("❌ JWT Verification Failed:", err.message);
+    return res.status(403).json({
+      success: false,
+      message: "Invalid or expired token",
+    });
   }
 }
 
-// Admin-only access check (protects admin routes)
+/* ============================================================
+   ✅ ADMIN-ONLY ROUTE PROTECTION
+============================================================ */
 function adminOnly(req, res, next) {
-  if (!req.user || req.user.role !== 'admin') {
-    return res.status(403).json({ success: false, message: 'Admin only' });
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      message: "Not authenticated",
+    });
   }
+
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      success: false,
+      message: "Access denied – Admins only",
+    });
+  }
+
   next();
 }
 
-module.exports = { authenticateToken, adminOnly };
+/* ============================================================
+   ✅ SUPERADMIN-ONLY PROTECTION (Optional)
+============================================================ */
+function superAdminOnly(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      message: "Not authenticated",
+    });
+  }
+
+  if (req.user.role !== "superadmin") {
+    return res.status(403).json({
+      success: false,
+      message: "Access denied – Superadmin only",
+    });
+  }
+
+  next();
+}
+
+module.exports = { authenticateToken, adminOnly, superAdminOnly };
